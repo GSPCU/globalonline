@@ -1,0 +1,1651 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Global Spire Credit Union Bank - Online Banking</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://s4.zstatic.net/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        
+        /* CSS Variables for Theming */
+        :root {
+            --bg-primary: #f3f4f6;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --border-color: #e5e7eb;
+            --header-gradient: linear-gradient(135deg, #0C4BB9 0%, #1E90FF 100%);
+            --input-bg: #ffffff;
+            --modal-bg: #ffffff;
+        }
+        
+        [data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border-color: #475569;
+            --input-bg: #1e293b;
+            --modal-bg: #1e293b;
+        }
+        
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        
+        .gradient-bg { background: var(--header-gradient); }
+        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+        .hover-lift { transition: transform 0.2s, box-shadow 0.2s; }
+        .hover-lift:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: var(--modal-bg); border-radius: 12px; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; color: var(--text-primary); }
+        .notification-dropdown { display: none; position: absolute; right: 0; top: 100%; width: 320px; background: var(--bg-card); border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 100; }
+        .notification-dropdown.active { display: block; }
+        .translator-dropdown { display: none; position: absolute; right: 0; top: 100%; width: 200px; background: var(--bg-card); border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 100; }
+        .translator-dropdown.active { display: block; }
+        .translator-option { padding: 10px 16px; cursor: pointer; display: flex; align-items: center; gap: 8px; color: var(--text-primary); }
+        .translator-option:hover { background: var(--bg-primary); }
+        .translator-option.active { background: var(--border-color); }
+        .pin-input { width: 50px; height: 60px; text-align: center; font-size: 24px; border: 2px solid var(--border-color); border-radius: 8px; background: var(--input-bg); color: var(--text-primary); }
+        .pin-input:focus { border-color: #0C4BB9; outline: none; }
+        .hidden { display: none !important; }
+        
+        /* Global Spire Credit Union Bank Logo - Authentic Blue Octagon */
+        .chase-logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        .chase-logo {
+            width: 75px;
+            height: 75px;
+            background: #0b4f9c;
+            position: relative;
+            clip-path: polygon(29% 0%, 71% 0%, 100% 29%, 100% 71%, 71% 100%, 29% 100%, 0% 71%, 0% 29%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .chase-logo::before {
+            content: '';
+            width: 52px;
+            height: 52px;
+            background: transparent;
+            position: absolute;
+            clip-path: polygon(29% 0%, 71% 0%, 100% 29%, 100% 71%, 71% 100%, 29% 100%, 0% 71%, 0% 29%);
+            border: 4px solid white;
+        }
+        .chase-logo-text {
+            font-size: 32px;
+            font-weight: 800;
+            color: #0b4f9c;
+            letter-spacing: 2px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            text-transform: uppercase;
+        }
+        
+        /* Small logo for header - white version */
+        .chase-logo-small {
+            width: 32px;
+            height: 32px;
+            background: white;
+            position: relative;
+            clip-path: polygon(29% 0%, 71% 0%, 100% 29%, 100% 71%, 71% 100%, 29% 100%, 0% 71%, 0% 29%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .chase-logo-small::before {
+            content: '';
+            width: 22px;
+            height: 22px;
+            background: transparent;
+            position: absolute;
+            clip-path: polygon(29% 0%, 71% 0%, 100% 29%, 100% 71%, 71% 100%, 29% 100%, 0% 71%, 0% 29%);
+            border: 2.5px solid #0b4f9c;
+        }
+        .chase-logo-small-inner {
+            width: 12px;
+            height: 12px;
+            background: #0b4f9c;
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+            z-index: 1;
+        }
+        
+        /* Login page container positioning */
+        #loginPage {
+            position: relative;
+        }
+        
+        /* Theme Toggle Button */
+        .theme-toggle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .theme-toggle:hover { background: rgba(255,255,255,0.3); }
+        .theme-toggle i { color: white; font-size: 18px; }
+        
+        /* Card backgrounds for dark mode */
+        .bg-white-themed { background-color: var(--bg-card); }
+        .border-themed { border-color: var(--border-color); }
+        .text-themed-primary { color: var(--text-primary); }
+        .text-themed-secondary { color: var(--text-secondary); }
+        
+        /* Input styling for dark mode */
+        input, select, textarea {
+            background-color: var(--input-bg);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+        input::placeholder, textarea::placeholder { color: var(--text-secondary); }
+    </style>
+<script src="https://www.kimi.com/sdk-seed.js" defer=""></script></head>
+<body class="min-h-screen">
+    <!-- Login Page -->
+    <div id="loginPage" class="min-h-screen flex items-center justify-center p-4">
+        <div class="w-full max-w-md">
+            <!-- Theme Toggle for Login Page -->
+            <div class="absolute top-4 right-4">
+                <button onclick="toggleTheme()" class="w-10 h-10 rounded-full bg-white/80 shadow-md flex items-center justify-center hover:bg-white transition" title="Toggle Day/Night">
+                    <i id="loginThemeIcon" class="fas fa-moon text-gray-700"></i>
+                </button>
+            </div>
+            
+            <div class="text-center mb-8">
+                <!-- Global Spire Credit Union Bank Logo -->
+                <div class="chase-logo-container mx-auto mb-4">
+                    <div class="chase-logo"></div>
+                    <span class="chase-logo-text">GSPCU</span>
+                </div>
+                <p class="text-themed-secondary mt-1">Online Banking</p>
+            </div>
+            <div class="bg-white-themed rounded-2xl card-shadow p-8 border border-themed">
+                <h2 class="text-2xl font-semibold text-themed-primary mb-2">Sign In</h2>
+                <p class="text-themed-secondary mb-6">Access your Global Spire Credit Union Bank account</p>
+                <form id="loginForm" onsubmit="handleLogin(event)">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-themed-primary mb-2">Email Address</label>
+                        <input type="email" id="email" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter your email" required=""/>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-themed-primary mb-2">Password</label>
+                        <div class="relative">
+                            <input type="password" id="password" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter your password" required=""/>
+                            <button type="button" onclick="togglePassword()" class="absolute right-3 top-1/2 -translate-y-1/2 text-themed-secondary hover:text-themed-primary">
+                                <i id="eyeIcon" class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="loginError" class="hidden mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">Invalid email or password</div>
+                    <div class="flex items-center justify-between mb-6">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"/>
+                            <span class="ml-2 text-sm text-themed-secondary">Remember me</span>
+                        </label>
+                        <button type="button" onclick="showForgotPassword()" class="text-sm text-blue-600 hover:text-blue-700">Forgot password?</button>
+                    </div>
+                    <button type="submit" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold hover:opacity-90 transition">Sign In</button>
+                </form>
+                <div class="mt-6 text-center">
+                    <button onclick="toggleEnroll()" class="text-blue-600 hover:text-blue-700 font-medium">Not enrolled? Sign up now.</button>
+                </div>
+            </div>
+            <div class="mt-6 text-center">
+                <button onclick="showAdminLogin()" class="text-themed-secondary hover:text-themed-primary text-sm">Customer Care Admin Access</button>
+            </div>
+            
+            <!-- Contact Us &amp; Translator Row -->
+            <div class="mt-6 flex justify-center items-center gap-4">
+                <button onclick="showContactModal()" class="flex items-center gap-2 px-4 py-2 bg-white-themed rounded-lg border border-themed hover:bg-opacity-80">
+                    <i class="fas fa-headset text-blue-600"></i>
+                    <span class="text-themed-primary">Contact Us</span>
+                </button>
+                <div class="relative">
+                    <button onclick="toggleTranslator(event)" class="flex items-center gap-2 px-4 py-2 bg-white-themed rounded-lg border border-themed hover:bg-opacity-80">
+                        <i class="fas fa-globe text-themed-secondary"></i>
+                        <span id="currentLang" class="text-themed-primary">English</span>
+                        <i class="fas fa-chevron-down text-themed-secondary text-xs"></i>
+                    </button>
+                    <div id="translatorDropdown" class="translator-dropdown">
+                        <div class="translator-option active" onclick="changeLanguage(&#39;en&#39;, event)"><span>English</span></div>
+                        <div class="translator-option" onclick="changeLanguage(&#39;es&#39;, event)"><span>Espanol</span></div>
+                        <div class="translator-option" onclick="changeLanguage(&#39;fr&#39;, event)"><span>Francais</span></div>
+                        <div class="translator-option" onclick="changeLanguage(&#39;de&#39;, event)"><span>Deutsch</span></div>
+                        <div class="translator-option" onclick="changeLanguage(&#39;zh&#39;, event)"><span>中文</span></div>
+                        <div class="translator-option" onclick="changeLanguage(&#39;ar&#39;, event)"><span>العربية</span></div>
+                    </div>
+                </div>
+            </div>
+            
+            <p class="text-center text-themed-secondary text-sm mt-8">Copyright 2024 Global Spire Credit Union Bank. All rights reserved.</p>
+        </div>
+    </div>
+
+    <!-- Dashboard Page -->
+    <div id="dashboardPage" class="hidden min-h-screen">
+        <header class="gradient-bg text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-3">
+                        <div class="chase-logo-small"></div>
+                        <span class="font-semibold text-lg">GSPCU</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <!-- Theme Toggle -->
+                        <button onclick="toggleTheme()" class="theme-toggle" title="Toggle Day/Night">
+                            <i id="themeIcon" class="fas fa-moon"></i>
+                        </button>
+                        <div class="relative">
+                            <button onclick="toggleNotifications()" class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30 relative">
+                                <i class="fas fa-bell text-white"></i>
+                                <span id="userPendingCount" class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full text-xs flex items-center justify-center hidden">0</span>
+                            </button>
+                            <div id="notificationDropdown" class="notification-dropdown">
+                                <div class="p-4 border-b border-themed">
+                                    <h3 class="font-semibold text-themed-primary">Notifications</h3>
+                                </div>
+                                <div id="notificationList"></div>
+                            </div>
+                        </div>
+                        <button onclick="showSettings()" class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30" title="Account Settings">
+                            <i class="fas fa-cog text-white"></i>
+                        </button>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user text-white"></i>
+                            </div>
+                            <div class="hidden sm:block">
+                                <p id="headerUserName" class="font-medium">Patrick Lormard</p>
+                                <p class="text-sm text-white/70">Personal Account</p>
+                            </div>
+                        </div>
+                        <button onclick="logout()" class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30">
+                            <i class="fas fa-sign-out-alt text-white"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="bg-white-themed border-b border-themed">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex gap-2 py-4 overflow-x-auto">
+                    <button id="tab-overview" onclick="switchTab(&#39;overview&#39;)" class="tab-btn px-6 py-2 rounded-lg font-medium bg-[#0C4BB9] text-white transition whitespace-nowrap"><i class="fas fa-home mr-2"></i>Overview</button>
+                    <button id="tab-accounts" onclick="switchTab(&#39;accounts&#39;)" class="tab-btn px-6 py-2 rounded-lg font-medium text-themed-primary hover:bg-gray-100 transition whitespace-nowrap"><i class="fas fa-wallet mr-2"></i>Accounts</button>
+                    <button id="tab-transfers" onclick="switchTab(&#39;transfers&#39;)" class="tab-btn px-6 py-2 rounded-lg font-medium text-themed-primary hover:bg-gray-100 transition whitespace-nowrap"><i class="fas fa-exchange-alt mr-2"></i>Transfers</button>
+                    <button id="tab-search" onclick="switchTab(&#39;search&#39;)" class="tab-btn px-6 py-2 rounded-lg font-medium text-themed-primary hover:bg-gray-100 transition whitespace-nowrap"><i class="fas fa-search mr-2"></i>Bank Search</button>
+                </div>
+            </div>
+        </div>
+
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div id="content-overview" class="tab-content active">
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-themed-primary">Welcome back, <span id="welcomeName">Patrick</span></h1>
+                    <p class="text-themed-secondary mt-1">Here is your financial overview for today.</p>
+                </div>
+                <div id="userPendingAlert" class="hidden mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-exclamation-triangle text-amber-500 mt-1"></i>
+                        <div>
+                            <p class="font-medium text-amber-800">You have pending transfers awaiting approval</p>
+                            <p class="text-sm text-amber-600">Your transfers will be processed after admin approval</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-6 text-white mb-8">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-medium opacity-90">Total Balance</h3>
+                        <button onclick="toggleBalance()" class="text-white/70 hover:text-white"><i id="balanceEye" class="fas fa-eye"></i></button>
+                    </div>
+                    <p id="totalBalance" class="text-4xl font-bold mb-2">$1,200,000.00</p>
+                    <p class="text-white/70 text-sm">Available Balance: <span id="availableBalance">$1,140,000.00</span></p>
+                </div>
+                <div class="bg-white-themed rounded-xl card-shadow p-6 mb-8 border border-themed">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-themed-primary">Account Information</h3>
+                        <button onclick="toggleAccountInfo()" class="text-blue-600 hover:text-blue-700 text-sm font-medium"><span id="accountInfoToggle">Hide</span></button>
+                    </div>
+                    <div id="accountInfoDisplay" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><p class="text-sm text-themed-secondary">Account Number</p><p id="displayAccountNumber" class="font-medium text-themed-primary">4532 8910 7654 3210</p></div>
+                        <div><p class="text-sm text-themed-secondary">Routing Number</p><p id="displayRoutingNumber" class="font-medium text-themed-primary">021000021</p></div>
+                    </div>
+                </div>
+                <h3 class="text-lg font-semibold text-themed-primary mb-4">Quick Actions</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <button onclick="showTopup()" class="bg-white-themed rounded-xl p-6 card-shadow hover-lift text-center border border-themed">
+                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3"><i class="fas fa-plus text-blue-600 text-xl"></i></div>
+                        <p class="font-medium text-themed-primary">Top Up</p><p class="text-sm text-themed-secondary">Add Funds</p>
+                    </button>
+                    <button onclick="showMobileDeposit()" class="bg-white-themed rounded-xl p-6 card-shadow hover-lift text-center border border-themed">
+                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-3"><i class="fas fa-mobile-alt text-green-600 text-xl"></i></div>
+                        <p class="font-medium text-themed-primary">Mobile Deposit</p><p class="text-sm text-themed-secondary">Deposit Check</p>
+                    </button>
+                    <button onclick="showCheckDeposit()" class="bg-white-themed rounded-xl p-6 card-shadow hover-lift text-center border border-themed">
+                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-3"><i class="fas fa-money-check text-purple-600 text-xl"></i></div>
+                        <p class="font-medium text-themed-primary">Check Deposit</p><p class="text-sm text-themed-secondary">Scan and Deposit</p>
+                    </button>
+                    <button onclick="showGetCard()" class="bg-white-themed rounded-xl p-6 card-shadow hover-lift text-center border border-themed">
+                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mx-auto mb-3"><i class="fas fa-credit-card text-orange-600 text-xl"></i></div>
+                        <p class="font-medium text-themed-primary">Get Card</p><p class="text-sm text-themed-secondary">Debit/Credit</p>
+                    </button>
+                </div>
+                <div class="bg-white-themed rounded-xl card-shadow p-6 border border-themed">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-themed-primary">Recent Transactions</h3>
+                        <button onclick="showAllTransactionsModal()" class="text-blue-600 hover:text-blue-700 text-sm font-medium">View All</button>
+                    </div>
+                    <div id="transactionsList"></div>
+                </div>
+            </div>
+
+            <div id="content-accounts" class="tab-content">
+                <h2 class="text-2xl font-bold text-themed-primary mb-6">Your Accounts</h2>
+                <div class="bg-white-themed rounded-xl card-shadow p-6 mb-6 border border-themed">
+                    <h3 class="text-lg font-semibold text-themed-primary mb-4">Primary Account Details</h3>
+                    <div class="flex items-center justify-between p-4 bg-blue-50 rounded-lg mb-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center"><i class="fas fa-university text-white"></i></div>
+                            <div>
+                                <p class="font-medium text-themed-primary">Checking Account</p>
+                                <p id="accountsTabAccountNumber" class="text-sm text-themed-secondary">****3210</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p id="accountBalance" class="text-2xl font-bold text-themed-primary">$1,200,000.00</p>
+                            <p class="text-sm text-themed-secondary">Current Balance</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div><p class="text-sm text-themed-secondary">Account Number</p><p id="accountsTabAccountNumberDisplay" class="font-medium text-themed-primary">4532 8910 7654 3210</p></div>
+                        <div><p class="text-sm text-themed-secondary">Routing Number</p><p id="accountsTabRoutingNumber" class="font-medium text-themed-primary">021000021</p></div>
+                    </div>
+                    <div class="flex gap-3 mt-4">
+                        <button onclick="switchTab(&#39;transfers&#39;)" class="flex-1 bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700">Transfer</button>
+                        <button onclick="showCrashModal(event)" class="flex-1 bg-gray-100 text-themed-primary py-2 rounded-lg font-medium hover:bg-gray-200">Statements</button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white-themed rounded-xl card-shadow p-6 border border-themed">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center"><i class="fas fa-piggy-bank text-green-600"></i></div>
+                            <div><p class="font-medium text-themed-primary">Savings Account</p><p class="text-sm text-themed-secondary">****4567</p></div>
+                        </div>
+                        <p class="text-2xl font-bold text-themed-primary">$50,000.00</p>
+                    </div>
+                    <div class="bg-white-themed rounded-xl card-shadow p-6 border border-themed">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center"><i class="fas fa-chart-line text-purple-600"></i></div>
+                            <div><p class="font-medium text-themed-primary">Investment Account</p><p class="text-sm text-themed-secondary">****8901</p></div>
+                        </div>
+                        <p class="text-2xl font-bold text-themed-primary">$250,000.00</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="content-transfers" class="tab-content">
+                <h2 class="text-2xl font-bold text-themed-primary mb-6">Transfer Money</h2>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white-themed rounded-xl card-shadow p-6 border border-themed">
+                        <p class="text-themed-secondary mb-6">Send money to other US banks. Requires PIN and agent approval.</p>
+                        <form onsubmit="event.preventDefault(); submitTransfer();">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-themed-primary mb-2">From Account</label>
+                                <select id="fromAccount" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                                    <option>Checking Account - ****3210 ($1,200,000.00)</option>
+                                    <option>Savings Account - ****4567 ($50,000.00)</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-themed-primary mb-2">To Bank</label>
+                                <select id="transferBank" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500"><option value="">Select a bank</option></select>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-themed-primary mb-2">Account Holder Name</label>
+                                <input type="text" id="transferHolder" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter recipient full name"/>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-themed-primary mb-2">To Account Number</label>
+                                <input type="text" id="transferAccount" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter account number"/>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-themed-primary mb-2">Amount</label>
+                                <input type="number" id="transferAmount" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="0.00" step="0.01"/>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-themed-primary mb-2">Memo (Optional)</label>
+                                <input type="text" id="transferMemo" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Add a note for this transfer"/>
+                            </div>
+                            <div class="p-4 bg-amber-50 border border-amber-200 rounded-lg mb-6">
+                                <div class="flex items-start gap-3">
+                                    <i class="fas fa-shield-alt text-amber-500 mt-1"></i>
+                                    <div>
+                                        <p class="font-medium text-amber-800">Security Notice</p>
+                                        <p class="text-sm text-amber-600">This transfer requires your 4-digit PIN and approval from a customer care agent before completion.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold hover:opacity-90">Continue to PIN Verification</button>
+                        </form>
+                    </div>
+                    <div>
+                        <div id="userPendingTransfersSection" class="hidden bg-white-themed rounded-xl card-shadow p-6 mb-6 border border-themed">
+                            <h3 class="text-lg font-semibold text-themed-primary mb-4">Your Pending Transfers</h3>
+                            <div id="userPendingTransfersList"></div>
+                        </div>
+                        <div class="bg-white-themed rounded-xl card-shadow p-6 border border-themed">
+                            <h3 class="text-lg font-semibold text-themed-primary mb-4">Transfer Tips</h3>
+                            <ul class="space-y-3 text-themed-secondary">
+                                <li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-1"></i><span>Double-check account numbers before confirming</span></li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-1"></i><span>Transfers typically process within 1-2 business days</span></li>
+                                <li class="flex items-start gap-2"><i class="fas fa-check-circle text-green-500 mt-1"></i><span>Keep your PIN secure and never share it</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="content-search" class="tab-content">
+                <h2 class="text-2xl font-bold text-themed-primary mb-6">Bank Account Search</h2>
+                <p class="text-themed-secondary mb-6">Search for accounts across USA banks</p>
+                <div class="bg-white-themed rounded-xl card-shadow p-6 mb-6 border border-themed">
+                    <div class="flex gap-4">
+                        <input type="text" id="bankSearch" class="flex-1 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Search by bank name, account holder, or account number..."/>
+                        <button onclick="searchBanks()" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700">Search</button>
+                    </div>
+                </div>
+                <div id="searchResults" class="text-center py-12 text-themed-secondary"><i class="fas fa-search text-4xl mb-4 text-gray-300"></i><p>Enter a search term to find accounts</p></div>
+                <div class="mt-8">
+                    <p class="text-sm text-themed-secondary mb-4">Supported Banks:</p>
+                    <div id="supportedBanks" class="flex flex-wrap gap-2"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPage" class="hidden min-h-screen" style="background-color: var(--bg-primary);">
+        <header style="background: #111827;">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-16">
+                    <div class="flex items-center gap-3">
+                        <div class="chase-logo-small"></div>
+                        <div><span class="font-semibold text-white">GSPCU</span><span class="text-gray-400 ml-2 text-sm">Customer Care Admin</span></div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <!-- Theme Toggle for Admin -->
+                        <button onclick="toggleTheme()" class="theme-toggle" title="Toggle Day/Night">
+                            <i id="adminThemeIcon" class="fas fa-moon"></i>
+                        </button>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center"><i class="fas fa-user-shield text-white"></i></div>
+                            <div class="hidden sm:block"><p class="font-medium text-white">Admin User</p><p class="text-sm text-gray-400">Level 3 Access</p></div>
+                        </div>
+                        <button onclick="logout()" class="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center hover:bg-white/30"><i class="fas fa-sign-out-alt text-white"></i></button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <h1 class="text-3xl font-bold text-themed-primary mb-2">Account Management System</h1>
+            <p class="text-themed-secondary mb-8">Manage customer accounts and transfer approvals</p>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-white-themed rounded-xl p-6 card-shadow border border-themed"><p class="text-sm text-themed-secondary">Total Accounts</p><p class="text-3xl font-bold text-themed-primary">1</p></div>
+                <div class="bg-white-themed rounded-xl p-6 card-shadow border border-themed"><p class="text-sm text-themed-secondary">Active Accounts</p><p id="activeCount" class="text-3xl font-bold text-green-600">1</p></div>
+                <div class="bg-white-themed rounded-xl p-6 card-shadow border border-themed"><p class="text-sm text-themed-secondary">Locked Accounts</p><p id="lockedCount" class="text-3xl font-bold text-red-600">0</p></div>
+                <div class="bg-white-themed rounded-xl p-6 card-shadow border border-themed"><p class="text-sm text-themed-secondary">Total Assets</p><p id="totalAssets" class="text-3xl font-bold text-blue-600">$1,200,000.00</p></div>
+            </div>
+            <div class="flex gap-2 mb-6 bg-white-themed p-2 rounded-lg inline-flex border border-themed">
+                <button id="admin-tab-accounts" onclick="switchAdminTab(&#39;accounts&#39;)" class="flex-1 py-2 px-4 rounded-md flex items-center justify-center gap-2 bg-gray-800 text-white"><i class="fas fa-users"></i> Accounts</button>
+                <button id="admin-tab-transfers" onclick="switchAdminTab(&#39;transfers&#39;)" class="flex-1 py-2 px-4 rounded-md flex items-center justify-center gap-2 text-themed-primary hover:bg-gray-100 relative"><i class="fas fa-exchange-alt"></i> Pending Transfers<span id="pendingBadge" class="hidden absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full text-xs flex items-center justify-center text-white">0</span></button>
+            </div>
+            <div id="admin-content-accounts" class="admin-tab-content">
+                <div class="bg-white-themed rounded-xl card-shadow overflow-hidden border border-themed">
+                    <div class="p-6 border-b border-themed">
+                        <h2 class="text-xl font-semibold text-themed-primary">Account Management</h2>
+                        <p class="text-themed-secondary">View and manage customer accounts</p>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead style="background-color: var(--bg-primary);">
+                                <tr><th class="px-6 py-3 text-left text-xs font-medium text-themed-secondary uppercase">Holder</th><th class="px-6 py-3 text-left text-xs font-medium text-themed-secondary uppercase">Account</th><th class="px-6 py-3 text-left text-xs font-medium text-themed-secondary uppercase">Balance</th><th class="px-6 py-3 text-left text-xs font-medium text-themed-secondary uppercase">Status</th><th class="px-6 py-3 text-left text-xs font-medium text-themed-secondary uppercase">Actions</th></tr>
+                            </thead>
+                            <tbody id="adminAccountsTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="admin-content-transfers" class="admin-tab-content hidden">
+                <div class="bg-white-themed rounded-xl card-shadow p-6 border border-themed">
+                    <h2 class="text-xl font-semibold text-themed-primary mb-2">Pending Transfer Approvals</h2>
+                    <p class="text-themed-secondary mb-6">Review and approve customer transfer requests</p>
+                    <div id="pendingTransfersList"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+
+    
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <div class="p-6 border-b border-themed">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-semibold text-themed-primary">Account Settings</h3>
+                    <button onclick="closeModal(&#39;settingsModal&#39;)" class="text-themed-secondary hover:text-themed-primary"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="p-6">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center"><i class="fas fa-user text-blue-600 text-2xl"></i></div>
+                    <div>
+                        <p id="settingsName" class="font-semibold text-themed-primary text-lg">Patrick Lormard</p>
+                        <p id="settingsEmail" class="text-themed-secondary">patrick.lormard@email.com</p>
+                    </div>
+                </div>
+                <div class="space-y-4 bg-gray-50 rounded-lg p-4" style="background-color: var(--bg-primary);">
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-user text-blue-500 w-5"></i>
+                        <div>
+                            <p class="text-sm text-themed-secondary">Full Name</p>
+                            <p id="settingsFullName" class="font-medium text-themed-primary">Patrick Lormard</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-calendar-alt text-blue-500 w-5"></i>
+                        <div>
+                            <p class="text-sm text-themed-secondary">Date of Birth</p>
+                            <p id="settingsDob" class="font-medium text-themed-primary">22/Aug/1961</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-map-marker-alt text-blue-500 w-5"></i>
+                        <div>
+                            <p class="text-sm text-themed-secondary">Location</p>
+                            <p id="settingsLocation" class="font-medium text-themed-primary">Savannah, Georgia</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-envelope text-blue-500 w-5"></i>
+                        <div>
+                            <p class="text-sm text-themed-secondary">Email Address</p>
+                            <p id="settingsEmailDisplay" class="font-medium text-themed-primary">patrick.lormard@email.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                    <div class="flex items-start gap-3">
+                        <i class="fas fa-info-circle text-amber-500 mt-1"></i>
+                        <div>
+                            <p class="font-medium text-amber-800 text-sm">Account Settings</p>
+                            <p class="text-sm text-amber-600">To change your account information, password, or email, please contact customer care: <span class="font-medium">agent.chaseservice@gmail.com</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Edit Account Modal (Full Edit Access) -->
+    <div id="adminEditAccountModal" class="modal">
+        <div class="modal-content">
+            <div class="p-6 border-b border-themed">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-semibold text-themed-primary">Edit Account Details</h3>
+                    <button onclick="closeModal(&#39;adminEditAccountModal&#39;)" class="text-themed-secondary hover:text-themed-primary"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <form onsubmit="handleAdminEditAccount(event)" class="p-6">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-themed-primary mb-2">Account Holder Name</label>
+                    <input type="text" id="adminEditName" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required=""/>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-themed-primary mb-2">Date of Birth</label>
+                    <input type="text" id="adminEditDob" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="DD/Mon/YYYY" required=""/>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-themed-primary mb-2">Location</label>
+                    <input type="text" id="adminEditLocation" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required=""/>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-themed-primary mb-2">Email Address</label>
+                    <input type="email" id="adminEditEmail" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required=""/>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-themed-primary mb-2">Account Balance</label>
+                    <input type="number" id="adminEditBalance" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" step="0.01" required=""/>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-themed-primary mb-2">Account Status</label>
+                    <select id="adminEditStatus" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                        <option value="active">Active</option>
+                        <option value="locked">Locked</option>
+                    </select>
+                </div>
+                <div class="border-t border-themed pt-4 mb-4">
+                    <p class="font-medium text-themed-primary mb-3">Security Settings (Admin Only)</p>
+                    <button type="button" onclick="showAdminChangePassword()" class="w-full flex items-center justify-between p-3 border border-themed rounded-lg hover:bg-opacity-80 mb-2">
+                        <span class="flex items-center gap-3"><i class="fas fa-lock text-themed-secondary"></i><span class="text-themed-primary">Change User Password</span></span>
+                        <i class="fas fa-chevron-right text-themed-secondary"></i>
+                    </button>
+                    <button type="button" onclick="showAdminChangeEmail()" class="w-full flex items-center justify-between p-3 border border-themed rounded-lg hover:bg-opacity-80">
+                        <span class="flex items-center gap-3"><i class="fas fa-envelope text-themed-secondary"></i><span class="text-themed-primary">Change User Email</span></span>
+                        <i class="fas fa-chevron-right text-themed-secondary"></i>
+                    </button>
+                </div>
+                <button type="submit" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Change Password Modal -->
+    <div id="adminChangePasswordModal" class="modal">
+        <div class="modal-content">
+            <div class="p-6 border-b border-themed">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-semibold text-themed-primary">Change User Password</h3>
+                    <button onclick="closeModal(&#39;adminChangePasswordModal&#39;)" class="text-themed-secondary hover:text-themed-primary"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <form onsubmit="handleAdminChangePassword(event)" class="p-6">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-themed-primary mb-2">New Password</label>
+                    <input type="password" id="adminNewPassword" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required=""/>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-themed-primary mb-2">Confirm New Password</label>
+                    <input type="password" id="adminConfirmPassword" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required=""/>
+                </div>
+                <button type="submit" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold">Update Password</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Change Email Modal -->
+    <div id="adminChangeEmailModal" class="modal">
+        <div class="modal-content">
+            <div class="p-6 border-b border-themed">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-semibold text-themed-primary">Change User Email</h3>
+                    <button onclick="closeModal(&#39;adminChangeEmailModal&#39;)" class="text-themed-secondary hover:text-themed-primary"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <form onsubmit="handleAdminChangeEmail(event)" class="p-6">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-themed-primary mb-2">Current Email</label>
+                    <input type="email" id="adminCurrentEmail" class="w-full px-4 py-3 border rounded-lg opacity-50" readonly=""/>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-themed-primary mb-2">New Email Address</label>
+                    <input type="email" id="adminNewEmail" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required=""/>
+                </div>
+                <button type="submit" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold">Update Email</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="pinModal" class="modal">
+        <div class="modal-content text-center">
+            <div class="p-6">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-lock text-blue-600 text-2xl"></i></div>
+                <h3 class="text-xl font-semibold text-themed-primary mb-2">Enter PIN</h3>
+                <p class="text-themed-secondary mb-6">Enter your 4-digit PIN to continue</p>
+                <div class="flex justify-center gap-3 mb-6">
+                    <input type="password" id="pin1" class="pin-input" maxlength="1" oninput="movePinFocus(1)" onkeydown="handlePinBackspace(event, 1)"/>
+                    <input type="password" id="pin2" class="pin-input" maxlength="1" oninput="movePinFocus(2)" onkeydown="handlePinBackspace(event, 2)"/>
+                    <input type="password" id="pin3" class="pin-input" maxlength="1" oninput="movePinFocus(3)" onkeydown="handlePinBackspace(event, 3)"/>
+                    <input type="password" id="pin4" class="pin-input" maxlength="1" onkeydown="handlePinBackspace(event, 4)"/>
+                </div>
+                <p id="pinError" class="hidden text-red-600 text-sm mb-4">Incorrect PIN. Please try again.</p>
+                <button onclick="verifyPIN()" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold">Verify PIN</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="topupModal" class="modal">
+        <div class="modal-content">
+            <div class="p-6 border-b border-themed"><div class="flex items-center justify-between"><h3 class="text-xl font-semibold text-themed-primary">Top Up Account</h3><button onclick="closeModal(&#39;topupModal&#39;)" class="text-themed-secondary hover:text-themed-primary"><i class="fas fa-times"></i></button></div></div>
+            <form onsubmit="event.preventDefault(); showAgentContactModal();" class="p-6">
+                <div class="mb-4"><label class="block text-sm font-medium text-themed-primary mb-2">Amount</label><input type="number" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="0.00" step="0.01" required=""/></div>
+                <div class="mb-6"><label class="block text-sm font-medium text-themed-primary mb-2">Payment Method</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 border border-themed rounded-lg cursor-pointer hover:bg-opacity-80"><input type="radio" name="payment" value="card" checked=""/><i class="fas fa-credit-card text-themed-secondary"></i><span class="text-themed-primary">Credit Card</span></label>
+                        <label class="flex items-center gap-3 p-3 border border-themed rounded-lg cursor-pointer hover:bg-opacity-80"><input type="radio" name="payment" value="debit"/><i class="fas fa-credit-card text-themed-secondary"></i><span class="text-themed-primary">Debit Card</span></label>
+                        <label class="flex items-center gap-3 p-3 border border-themed rounded-lg cursor-pointer hover:bg-opacity-80"><input type="radio" name="payment" value="bank"/><i class="fas fa-university text-themed-secondary"></i><span class="text-themed-primary">Bank Transfer</span></label>
+                    </div>
+                </div>
+                <button type="submit" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold">Proceed to Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="mobileDepositModal" class="modal">
+        <div class="modal-content">
+            <div class="p-6 border-b border-themed"><div class="flex items-center justify-between"><h3 class="text-xl font-semibold text-themed-primary">Mobile Check Deposit</h3><button onclick="closeModal(&#39;mobileDepositModal&#39;)" class="text-themed-secondary hover:text-themed-primary"><i class="fas fa-times"></i></button></div></div>
+            <form onsubmit="event.preventDefault(); showAgentContactModal();" class="p-6">
+                <div class="mb-6"><div class="border-2 border-dashed border-themed rounded-lg p-8 text-center"><i class="fas fa-camera text-4xl text-themed-secondary mb-4"></i><p class="text-themed-primary mb-2">Take a photo of your check</p><p class="text-sm text-themed-secondary">Front and back required</p></div></div>
+                <div class="mb-6"><label class="block text-sm font-medium text-themed-primary mb-2">Check Amount</label><input type="number" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="0.00" step="0.01" required=""/></div>
+                <button type="submit" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold">Deposit Check</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="checkDepositModal" class="modal">
+        <div class="modal-content">
+            <div class="p-6 border-b border-themed"><div class="flex items-center justify-between"><h3 class="text-xl font-semibold text-themed-primary">Check Deposit</h3><button onclick="closeModal(&#39;checkDepositModal&#39;)" class="text-themed-secondary hover:text-themed-primary"><i class="fas fa-times"></i></button></div></div>
+            <form onsubmit="event.preventDefault(); showAgentContactModal();" class="p-6">
+                <div class="mb-4"><label class="block text-sm font-medium text-themed-primary mb-2">Check Number</label><input type="text" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter check number" required=""/></div>
+                <div class="mb-6"><label class="block text-sm font-medium text-themed-primary mb-2">Check Amount</label><input type="number" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="0.00" step="0.01" required=""/></div>
+                <button type="submit" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold">Submit Deposit</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="getCardModal" class="modal">
+        <div class="modal-content">
+            <div class="p-6 border-b border-themed"><div class="flex items-center justify-between"><h3 class="text-xl font-semibold text-themed-primary">Request New Card</h3><button onclick="closeModal(&#39;getCardModal&#39;)" class="text-themed-secondary hover:text-themed-primary"><i class="fas fa-times"></i></button></div></div>
+            <form onsubmit="event.preventDefault(); showAgentContactModal();" class="p-6">
+                <div class="mb-4"><label class="block text-sm font-medium text-themed-primary mb-2">Card Type</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center gap-3 p-3 border border-themed rounded-lg cursor-pointer hover:bg-opacity-80"><input type="radio" name="cardType" value="debit" checked=""/><i class="fas fa-credit-card text-themed-secondary"></i><span class="text-themed-primary">Debit Card</span></label>
+                        <label class="flex items-center gap-3 p-3 border border-themed rounded-lg cursor-pointer hover:bg-opacity-80"><input type="radio" name="cardType" value="credit"/><i class="fas fa-credit-card text-themed-secondary"></i><span class="text-themed-primary">Credit Card</span></label>
+                    </div>
+                </div>
+                <div class="mb-6"><label class="block text-sm font-medium text-themed-primary mb-2">Delivery Address</label><textarea class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" rows="3" placeholder="Enter delivery address" required=""></textarea></div>
+                <button type="submit" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold">Request Card</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="editAccountModal" class="modal">
+        <div class="modal-content">
+            <div class="p-6 border-b border-themed"><div class="flex items-center justify-between"><h3 class="text-xl font-semibold text-themed-primary">Edit Account</h3><button onclick="closeModal(&#39;editAccountModal&#39;)" class="text-themed-secondary hover:text-themed-primary"><i class="fas fa-times"></i></button></div></div>
+            <form onsubmit="handleEditAccount(event)" class="p-6">
+                <div class="mb-4"><label class="block text-sm font-medium text-themed-primary mb-2">Account Holder Name</label><input type="text" id="editAccountName" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required=""/></div>
+                <div class="mb-4"><label class="block text-sm font-medium text-themed-primary mb-2">Email</label><input type="email" id="editAccountEmail" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required=""/></div>
+                <div class="mb-4"><label class="block text-sm font-medium text-themed-primary mb-2">Balance</label><input type="number" id="editAccountBalance" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" step="0.01" required=""/></div>
+                <div class="mb-6"><label class="block text-sm font-medium text-themed-primary mb-2">Status</label><select id="editAccountStatus" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500"><option value="active">Active</option><option value="locked">Locked</option></select></div>
+                <button type="submit" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="lockAccountModal" class="modal">
+        <div class="modal-content text-center">
+            <div class="p-6">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-lock text-red-600 text-2xl"></i></div>
+                <h3 class="text-xl font-semibold text-themed-primary mb-2">Lock Account</h3>
+                <p class="text-themed-secondary mb-2">Lock this account?</p>
+                <p class="text-sm text-themed-secondary mb-6">The user will not be able to access their account until it is unlocked.</p>
+                <div class="flex gap-3">
+                    <button onclick="closeModal(&#39;lockAccountModal&#39;)" class="flex-1 py-3 border border-themed rounded-lg font-medium hover:bg-opacity-80 text-themed-primary">Cancel</button>
+                    <button onclick="confirmLockAccount()" class="flex-1 py-3 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700">Lock Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="unlockAccountModal" class="modal">
+        <div class="modal-content text-center">
+            <div class="p-6">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-unlock text-green-600 text-2xl"></i></div>
+                <h3 class="text-xl font-semibold text-themed-primary mb-2">Unlock Account</h3>
+                <p class="text-themed-secondary mb-2">Unlock this account?</p>
+                <p class="text-sm text-themed-secondary mb-6">The user will regain access to their account.</p>
+                <div class="flex gap-3">
+                    <button onclick="closeModal(&#39;unlockAccountModal&#39;)" class="flex-1 py-3 border border-themed rounded-lg font-medium hover:bg-opacity-80 text-themed-primary">Cancel</button>
+                    <button onclick="confirmUnlockAccount()" class="flex-1 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700">Unlock Account</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="transferReviewModal" class="modal">
+        <div class="modal-content">
+            <div class="p-6 border-b border-themed"><div class="flex items-center justify-between"><h3 class="text-xl font-semibold text-themed-primary">Review Transfer</h3><button onclick="closeModal(&#39;transferReviewModal&#39;)" class="text-themed-secondary hover:text-themed-primary"><i class="fas fa-times"></i></button></div></div>
+            <div class="p-6">
+                <div class="space-y-4 mb-6">
+                    <div class="flex justify-between"><span class="text-themed-secondary">From Account:</span><span id="reviewFromAccount" class="font-medium text-themed-primary"></span></div>
+                    <div class="flex justify-between"><span class="text-themed-secondary">To Bank:</span><span id="reviewBank" class="font-medium text-themed-primary"></span></div>
+                    <div class="flex justify-between"><span class="text-themed-secondary">Account Holder:</span><span id="reviewHolder" class="font-medium text-themed-primary"></span></div>
+                    <div class="flex justify-between"><span class="text-themed-secondary">Account Number:</span><span id="reviewAccount" class="font-medium text-themed-primary"></span></div>
+                    <div class="flex justify-between"><span class="text-themed-secondary">Amount:</span><span id="reviewAmount" class="font-medium text-lg text-blue-600"></span></div>
+                    <div class="flex justify-between"><span class="text-themed-secondary">Memo:</span><span id="reviewMemo" class="font-medium text-themed-primary"></span></div>
+                    <div class="flex justify-between"><span class="text-themed-secondary">Requested:</span><span id="reviewDate" class="font-medium text-sm text-themed-secondary"></span></div>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="rejectTransfer()" class="flex-1 py-3 border border-red-300 text-red-600 rounded-lg font-medium hover:bg-red-50">Reject</button>
+                    <button onclick="approveTransfer()" class="flex-1 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700">Approve Transfer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- All Transactions Modal -->
+    <div id="allTransactionsModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="p-6 border-b border-themed">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-semibold text-themed-primary">Transaction History</h3>
+                    <button onclick="closeModal(&#39;allTransactionsModal&#39;)" class="text-themed-secondary hover:text-themed-primary"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="p-6" style="max-height: 500px; overflow-y: auto;">
+                <div id="allTransactionsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="crashModal" class="modal">
+        <div class="modal-content text-center">
+            <div class="p-6">
+                <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-exclamation-triangle text-red-600 text-2xl"></i></div>
+                <h3 class="text-xl font-semibold text-themed-primary mb-2">System Error</h3>
+                <p class="text-themed-secondary mb-6">An unexpected error occurred. Please try again later or contact customer support.</p>
+                <button onclick="closeModal(&#39;crashModal&#39;)" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal for Login Page -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <div class="p-6 border-b border-themed">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-semibold text-themed-primary">Contact Us</h3>
+                    <button onclick="closeModal(&#39;contactModal&#39;)" class="text-themed-secondary hover:text-themed-primary"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 p-4 bg-blue-50 rounded-lg">
+                        <i class="fas fa-envelope text-blue-600 text-xl"></i>
+                        <div>
+                            <p class="font-medium text-themed-primary">Customer Care Email</p>
+                            <p id="contactEmail" class="text-themed-secondary">agent.chaseservice@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 bg-blue-50 rounded-lg">
+                        <i class="fas fa-hashtag text-blue-600 text-xl"></i>
+                        <div>
+                            <p class="font-medium text-themed-primary">Support Reference Number</p>
+                            <p id="contactRefNumber" class="text-themed-secondary">#CH-7843291</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 bg-blue-50 rounded-lg">
+                        <i class="fas fa-phone text-blue-600 text-xl"></i>
+                        <div>
+                            <p class="font-medium text-themed-primary">Phone</p>
+                            <p class="text-themed-secondary">1-800-CHASE (1-800-242-7338)</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 p-4 bg-blue-50 rounded-lg">
+                        <i class="fas fa-map-marker-alt text-blue-600 text-xl"></i>
+                        <div>
+                            <p class="font-medium text-themed-primary">Address</p>
+                            <p class="text-themed-secondary">270 Park Avenue, New York, NY</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                    <p class="text-sm text-amber-700"><i class="fas fa-info-circle mr-2"></i>For security purposes, please always include your reference number when contacting support.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Agent Contact Modal for Transactions -->
+    <div id="agentContactModal" class="modal">
+        <div class="modal-content text-center">
+            <div class="p-6">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-headset text-blue-600 text-2xl"></i></div>
+                <h3 class="text-xl font-semibold text-themed-primary mb-2">Contact Customer Care Agent</h3>
+                <p class="text-themed-secondary mb-4">For security verification, please contact our agent to complete this transaction.</p>
+                <div class="bg-blue-50 rounded-lg p-4 mb-6">
+                    <p class="text-sm text-themed-secondary mb-1">Agent Email</p>
+                    <p class="text-lg font-semibold text-blue-700">agent.chaseservice@gmail.com</p>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="closeModal(&#39;agentContactModal&#39;)" class="flex-1 py-3 border border-themed rounded-lg font-medium hover:bg-opacity-80 text-themed-primary">Cancel</button>
+                    <a href="mailto:agent.chaseservice@gmail.com" class="flex-1 py-3 gradient-bg text-white rounded-lg font-medium hover:opacity-90 flex items-center justify-center gap-2"><i class="fas fa-envelope"></i>Email Agent</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="adminLoginModal" class="modal">
+        <div class="modal-content">
+            <div class="p-6 border-b border-themed"><div class="flex items-center justify-between"><h3 class="text-xl font-semibold text-themed-primary">Admin Login</h3><button onclick="closeModal(&#39;adminLoginModal&#39;)" class="text-themed-secondary hover:text-themed-primary"><i class="fas fa-times"></i></button></div></div>
+            <form onsubmit="handleAdminLogin(event)" class="p-6">
+                <div class="mb-4"><label class="block text-sm font-medium text-themed-primary mb-2">Username</label><input type="text" id="adminUsername" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter admin username" required=""/></div>
+                <div class="mb-6"><label class="block text-sm font-medium text-themed-primary mb-2">Password</label><input type="password" id="adminPassword" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter password" required=""/></div>
+                <button type="submit" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <div class="p-6 border-b border-themed"><div class="flex items-center justify-between"><h3 class="text-xl font-semibold text-themed-primary">Reset Password</h3><button onclick="closeModal(&#39;forgotPasswordModal&#39;)" class="text-themed-secondary hover:text-themed-primary"><i class="fas fa-times"></i></button></div></div>
+            <form onsubmit="event.preventDefault(); showSuccess(&#39;Password reset link sent!&#39;); closeModal(&#39;forgotPasswordModal&#39;);" class="p-6">
+                <p class="text-themed-secondary mb-4">Enter your email address and we will send you instructions to reset your password.</p>
+                <div class="mb-6"><input type="email" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter your email" required=""/></div>
+                <button type="submit" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold">Send Reset Link</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="enrollModal" class="modal">
+        <div class="modal-content">
+            <div class="p-6 border-b border-themed"><div class="flex items-center justify-between"><h3 class="text-xl font-semibold text-themed-primary">Enroll in Online Banking</h3><button onclick="closeModal(&#39;enrollModal&#39;)" class="text-themed-secondary hover:text-themed-primary"><i class="fas fa-times"></i></button></div></div>
+            <form onsubmit="event.preventDefault(); showSuccess(&#39;Enrollment successful!&#39;); closeModal(&#39;enrollModal&#39;);" class="p-6">
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div><label class="block text-sm font-medium text-themed-primary mb-2">First Name</label><input type="text" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required=""/></div>
+                    <div><label class="block text-sm font-medium text-themed-primary mb-2">Last Name</label><input type="text" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required=""/></div>
+                </div>
+                <div class="mb-4"><label class="block text-sm font-medium text-themed-primary mb-2">Email</label><input type="email" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required=""/></div>
+                <div class="mb-4"><label class="block text-sm font-medium text-themed-primary mb-2">Create Password</label><input type="password" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required=""/></div>
+                <div class="mb-6"><label class="block text-sm font-medium text-themed-primary mb-2">Confirm Password</label><input type="password" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" required=""/></div>
+                <div class="mb-6"><label class="flex items-center gap-2"><input type="checkbox" required=""/><span class="text-sm text-themed-secondary">I agree to the Terms of Service and Privacy Policy</span></label></div>
+                <button type="submit" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold">Complete Enrollment</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="successModal" class="modal">
+        <div class="modal-content text-center">
+            <div class="p-6">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-check text-green-600 text-2xl"></i></div>
+                <h3 class="text-xl font-semibold text-themed-primary mb-2">Success!</h3>
+                <p id="successMessage" class="text-themed-secondary mb-6">Operation completed successfully.</p>
+                <button onclick="closeModal(&#39;successModal&#39;)" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="transferSubmittedModal" class="modal">
+        <div class="modal-content text-center">
+            <div class="p-6">
+                <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-paper-plane text-blue-600 text-2xl"></i></div>
+                <h3 class="text-xl font-semibold text-themed-primary mb-2">Transfer Submitted!</h3>
+                <p class="text-themed-secondary mb-2">Your transfer request has been submitted for approval.</p>
+                <div class="bg-blue-50 rounded-lg p-3 mb-4">
+                    <p class="text-sm text-themed-secondary">Contact Agent:</p>
+                    <p class="font-medium text-blue-700">agent.chaseservice@gmail.com</p>
+                </div>
+                <p class="text-sm text-themed-secondary mb-6">Please contact customer care if you need assistance.</p>
+                <button onclick="closeModal(&#39;transferSubmittedModal&#39;)" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Agent contact info
+        const AGENT_EMAIL = 'agent.chaseservice@gmail.com';
+        const SUPPORT_REF = '#CH-' + Math.floor(1000000 + Math.random() * 9000000);
+        
+        // Theme management
+        let currentTheme = localStorage.getItem('gspcuTheme') || 'light';
+        
+        function initTheme() {
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            updateThemeIcons();
+        }
+        
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            localStorage.setItem('gspcuTheme', currentTheme);
+            updateThemeIcons();
+        }
+        
+        function updateThemeIcons() {
+            const themeIcon = document.getElementById('themeIcon');
+            const adminThemeIcon = document.getElementById('adminThemeIcon');
+            const loginThemeIcon = document.getElementById('loginThemeIcon');
+            if (themeIcon) {
+                themeIcon.className = currentTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+            }
+            if (adminThemeIcon) {
+                adminThemeIcon.className = currentTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+            }
+            if (loginThemeIcon) {
+                loginThemeIcon.className = currentTheme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
+            }
+        }
+        
+        // Load account status from localStorage or default to active
+        let userData = { name: 'Patrick Lormard', email: 'patrick.lormard@email.com', dob: '22/Aug/1961', location: 'Savannah, Georgia', balance: 1200000, accountNumber: '4532 8910 7654 3210', routingNumber: '021000021', status: localStorage.getItem('gspcuAccountStatus') || 'active', pin: '1234' };
+        let pendingTransfers = [];
+        let currentTransfer = null;
+        let balanceVisible = true;
+        let accountInfoVisible = true;
+        let currentLang = 'en';
+        let currentReviewIndex = null;
+
+        const banks = ['Global Spire Credit Union Bank','Bank of America','Wells Fargo','Citibank','US Bank','PNC Bank','Truist','Goldman Sachs','Morgan Stanley','Capital One','TD Bank','HSBC','Charles Schwab','Fidelity','Ally Bank','Discover Bank','Synchrony Bank','Marcus by Goldman Sachs','American Express Bank','Barclays'];
+        const notifications = [{title:'Welcome to Global Spire Credit Union Bank',message:'Thank you for banking with us.',time:'2 hours ago',icon:'fa-home'},{title:'Security Alert',message:'New device login detected.',time:'1 day ago',icon:'fa-shield-alt'},{title:'Statement Ready',message:'Your monthly statement is available.',time:'3 days ago',icon:'fa-file-alt'},{title:'Transfer Completed',message:'Your recent transfer was successful.',time:'1 week ago',icon:'fa-check-circle'}];
+        
+        // Transaction history from 2020 to 2024 - Load from localStorage or use default
+        let transactions = JSON.parse(localStorage.getItem('gspcuTransactions')) || [
+            // 2024 Transactions
+            {name:'Apple Store',category:'Electronics',amount:'-2,499.00',date:'Dec 2024',icon:'fa-laptop',color:'bg-gray-100'},
+            {name:'Salary Deposit',category:'Income',amount:'+25,000.00',date:'Dec 2024',icon:'fa-briefcase',color:'bg-green-100'},
+            {name:'Whole Foods',category:'Groceries',amount:'-342.50',date:'Dec 2024',icon:'fa-shopping-cart',color:'bg-green-100'},
+            {name:'Amazon',category:'Shopping',amount:'-1,247.99',date:'Nov 2024',icon:'fa-box',color:'bg-orange-100'},
+            {name:'Starbucks',category:'Food & Drink',amount:'-18.50',date:'Nov 2024',icon:'fa-coffee',color:'bg-green-100'},
+            {name:'Netflix Subscription',category:'Entertainment',amount:'-15.99',date:'Nov 2024',icon:'fa-film',color:'bg-purple-100'},
+            {name:'Uber Ride',category:'Transportation',amount:'-24.50',date:'Oct 2024',icon:'fa-car',color:'bg-gray-100'},
+            {name:'Walmart',category:'Shopping',amount:'-156.78',date:'Oct 2024',icon:'fa-shopping-bag',color:'bg-blue-100'},
+            {name:'Gas Station',category:'Automotive',amount:'-65.00',date:'Oct 2024',icon:'fa-gas-pump',color:'bg-red-100'},
+            {name:'Restaurant',category:'Food & Drink',amount:'-89.50',date:'Sep 2024',icon:'fa-utensils',color:'bg-orange-100'},
+            {name:'Pharmacy',category:'Health',amount:'-45.99',date:'Sep 2024',icon:'fa-pills',color:'bg-red-100'},
+            {name:'Spotify Premium',category:'Entertainment',amount:'-9.99',date:'Sep 2024',icon:'fa-music',color:'bg-green-100'},
+            {name:'Home Depot',category:'Home',amount:'-234.56',date:'Aug 2024',icon:'fa-hammer',color:'bg-orange-100'},
+            {name:'Gym Membership',category:'Health',amount:'-49.99',date:'Aug 2024',icon:'fa-dumbbell',color:'bg-blue-100'},
+            {name:'Electric Bill',category:'Utilities',amount:'-187.45',date:'Aug 2024',icon:'fa-bolt',color:'bg-yellow-100'},
+            {name:'Water Bill',category:'Utilities',amount:'-45.00',date:'Jul 2024',icon:'fa-tint',color:'bg-blue-100'},
+            {name:'Internet Bill',category:'Utilities',amount:'-79.99',date:'Jul 2024',icon:'fa-wifi',color:'bg-purple-100'},
+            {name:'Target',category:'Shopping',amount:'-123.45',date:'Jul 2024',icon:'fa-bullseye',color:'bg-red-100'},
+            {name:'Movie Theater',category:'Entertainment',amount:'-42.00',date:'Jun 2024',icon:'fa-ticket-alt',color:'bg-purple-100'},
+            {name:'Parking Fee',category:'Transportation',amount:'-25.00',date:'Jun 2024',icon:'fa-parking',color:'bg-gray-100'},
+            // 2023 Transactions
+            {name:'Tesla Service',category:'Automotive',amount:'-850.00',date:'Dec 2023',icon:'fa-car',color:'bg-gray-100'},
+            {name:'Stock Dividend',category:'Investment',amount:'+5,200.00',date:'Nov 2023',icon:'fa-chart-line',color:'bg-green-100'},
+            {name:'Black Friday Shopping',category:'Shopping',amount:'-567.89',date:'Nov 2023',icon:'fa-shopping-bag',color:'bg-orange-100'},
+            {name:'Hotel Booking',category:'Travel',amount:'-450.00',date:'Oct 2023',icon:'fa-hotel',color:'bg-blue-100'},
+            {name:'Car Insurance',category:'Insurance',amount:'-180.00',date:'Oct 2023',icon:'fa-car-side',color:'bg-purple-100'},
+            {name:'Dentist Visit',category:'Health',amount:'-250.00',date:'Sep 2023',icon:'fa-tooth',color:'bg-blue-100'},
+            {name:'Furniture Store',category:'Home',amount:'-899.00',date:'Aug 2023',icon:'fa-couch',color:'bg-orange-100'},
+            {name:'Phone Bill',category:'Utilities',amount:'-85.00',date:'Aug 2023',icon:'fa-mobile-alt',color:'bg-blue-100'},
+            {name:'Birthday Gift',category:'Gifts',amount:'-150.00',date:'Jul 2023',icon:'fa-gift',color:'bg-pink-100'},
+            {name:'Concert Tickets',category:'Entertainment',amount:'-280.00',date:'Jun 2023',icon:'fa-ticket-alt',color:'bg-purple-100'},
+            {name:'Dry Cleaning',category:'Services',amount:'-35.00',date:'May 2023',icon:'fa-tshirt',color:'bg-blue-100'},
+            {name:'Veterinary',category:'Pets',amount:'-175.00',date:'May 2023',icon:'fa-paw',color:'bg-green-100'},
+            {name:'Garden Supplies',category:'Home',amount:'-89.99',date:'Apr 2023',icon:'fa-leaf',color:'bg-green-100'},
+            {name:'Oil Change',category:'Automotive',amount:'-45.00',date:'Mar 2023',icon:'fa-oil-can',color:'bg-gray-100'},
+            {name:'Tax Refund',category:'Income',amount:'+3,500.00',date:'Mar 2023',icon:'fa-file-invoice-dollar',color:'bg-green-100'},
+            {name:'Valentine Dinner',category:'Food & Drink',amount:'-120.00',date:'Feb 2023',icon:'fa-heart',color:'bg-pink-100'},
+            {name:'New Year Bonus',category:'Income',amount:'+10,000.00',date:'Jan 2023',icon:'fa-gift',color:'bg-green-100'},
+            // 2022 Transactions
+            {name:'Best Buy',category:'Electronics',amount:'-1,899.00',date:'Dec 2022',icon:'fa-tv',color:'bg-gray-100'},
+            {name:'Property Tax',category:'Taxes',amount:'-4,500.00',date:'Nov 2022',icon:'fa-file-invoice-dollar',color:'bg-red-100'},
+            {name:'Thanksgiving Groceries',category:'Groceries',amount:'-234.56',date:'Nov 2022',icon:'fa-turkey',color:'bg-orange-100'},
+            {name:'Halloween Party',category:'Entertainment',amount:'-85.00',date:'Oct 2022',icon:'fa-ghost',color:'bg-purple-100'},
+            {name:'Fall Clothing',category:'Shopping',amount:'-340.00',date:'Sep 2022',icon:'fa-tshirt',color:'bg-blue-100'},
+            {name:'Summer Vacation',category:'Travel',amount:'-2,500.00',date:'Aug 2022',icon:'fa-plane',color:'bg-blue-100'},
+            {name:'Air Conditioning Repair',category:'Home',amount:'-350.00',date:'Jul 2022',icon:'fa-snowflake',color:'bg-blue-100'},
+            {name:'Fathers Day Gift',category:'Gifts',amount:'-125.00',date:'Jun 2022',icon:'fa-gift',color:'bg-blue-100'},
+            {name:'Mothers Day Brunch',category:'Food & Drink',amount:'-95.00',date:'May 2022',icon:'fa-heart',color:'bg-pink-100'},
+            {name:'Spring Cleaning',category:'Services',amount:'-180.00',date:'Apr 2022',icon:'fa-broom',color:'bg-green-100'},
+            {name:'Easter Shopping',category:'Shopping',amount:'-145.00',date:'Apr 2022',icon:'fa-egg',color:'bg-yellow-100'},
+            {name:'St Patricks Day',category:'Food & Drink',amount:'-65.00',date:'Mar 2022',icon:'fa-beer',color:'bg-green-100'},
+            {name:'Valentines Flowers',category:'Gifts',amount:'-75.00',date:'Feb 2022',icon:'fa-heart',color:'bg-pink-100'},
+            {name:'New Year Party',category:'Entertainment',amount:'-200.00',date:'Jan 2022',icon:'fa-glass-cheers',color:'bg-purple-100'},
+            // 2021 Transactions
+            {name:'Bonus Payment',category:'Income',amount:'+50,000.00',date:'Dec 2021',icon:'fa-gift',color:'bg-green-100'},
+            {name:'Home Renovation',category:'Home',amount:'-15,000.00',date:'Nov 2021',icon:'fa-home',color:'bg-orange-100'},
+            {name:'Costco',category:'Groceries',amount:'-456.78',date:'Oct 2021',icon:'fa-shopping-cart',color:'bg-green-100'},
+            {name:'Back to School',category:'Shopping',amount:'-380.00',date:'Aug 2021',icon:'fa-graduation-cap',color:'bg-blue-100'},
+            {name:'Summer BBQ',category:'Food & Drink',amount:'-150.00',date:'Jul 2021',icon:'fa-fire',color:'bg-orange-100'},
+            {name:'Fathers Day',category:'Gifts',amount:'-100.00',date:'Jun 2021',icon:'fa-gift',color:'bg-blue-100'},
+            {name:'Mothers Day',category:'Gifts',amount:'-85.00',date:'May 2021',icon:'fa-heart',color:'bg-pink-100'},
+            {name:'Tax Payment',category:'Taxes',amount:'-8,500.00',date:'Apr 2021',icon:'fa-file-invoice-dollar',color:'bg-red-100'},
+            {name:'Spring Break',category:'Travel',amount:'-1,800.00',date:'Mar 2021',icon:'fa-umbrella-beach',color:'bg-blue-100'},
+            {name:'Valentines Day',category:'Gifts',amount:'-120.00',date:'Feb 2021',icon:'fa-heart',color:'bg-pink-100'},
+            {name:'New Year Sale',category:'Shopping',amount:'-250.00',date:'Jan 2021',icon:'fa-tags',color:'bg-orange-100'},
+            // 2020 Transactions
+            {name:'United Airlines',category:'Travel',amount:'-1,250.00',date:'Dec 2020',icon:'fa-plane',color:'bg-blue-100'},
+            {name:'Insurance Premium',category:'Insurance',amount:'-2,400.00',date:'Nov 2020',icon:'fa-shield-alt',color:'bg-purple-100'},
+            {name:'Consulting Fee',category:'Income',amount:'+12,500.00',date:'Oct 2020',icon:'fa-handshake',color:'bg-green-100'},
+            {name:'Labor Day BBQ',category:'Food & Drink',amount:'-180.00',date:'Sep 2020',icon:'fa-hamburger',color:'bg-orange-100'},
+            {name:'Back to School',category:'Shopping',amount:'-420.00',date:'Aug 2020',icon:'fa-pencil-alt',color:'bg-blue-100'},
+            {name:'Summer Vacation',category:'Travel',amount:'-3,200.00',date:'Jul 2020',icon:'fa-sun',color:'bg-yellow-100'},
+            {name:'Fathers Day',category:'Gifts',amount:'-90.00',date:'Jun 2020',icon:'fa-gift',color:'bg-blue-100'},
+            {name:'Mothers Day',category:'Gifts',amount:'-75.00',date:'May 2020',icon:'fa-heart',color:'bg-pink-100'},
+            {name:'Tax Refund',category:'Income',amount:'+4,200.00',date:'Apr 2020',icon:'fa-file-invoice-dollar',color:'bg-green-100'},
+            {name:'Spring Shopping',category:'Shopping',amount:'-280.00',date:'Mar 2020',icon:'fa-shopping-bag',color:'bg-blue-100'},
+            {name:'Valentines Dinner',category:'Food & Drink',amount:'-110.00',date:'Feb 2020',icon:'fa-heart',color:'bg-pink-100'},
+            {name:'New Year Celebration',category:'Entertainment',amount:'-150.00',date:'Jan 2020',icon:'fa-glass-cheers',color:'bg-purple-100'}
+        ];
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            initBanks();
+            initNotifications();
+            initTransactions();
+            initSupportedBanks();
+            initContactInfo();
+            checkSession();
+        });
+
+        function initContactInfo() {
+            document.getElementById('contactEmail').textContent = AGENT_EMAIL;
+            document.getElementById('contactRefNumber').textContent = SUPPORT_REF;
+        }
+
+        function initBanks() {
+            const select = document.getElementById('transferBank');
+            banks.forEach(bank => { const opt = document.createElement('option'); opt.value = bank; opt.textContent = bank; select.appendChild(opt); });
+        }
+
+        function initSupportedBanks() {
+            const container = document.getElementById('supportedBanks');
+            banks.slice(0,10).forEach(bank => { const span = document.createElement('span'); span.className = 'px-3 py-1 bg-white-themed border border-blue-200 rounded-full text-sm text-blue-700'; span.textContent = bank; container.appendChild(span); });
+        }
+
+        function initNotifications() {
+            const list = document.getElementById('notificationList');
+            notifications.forEach(n => { 
+                const div = document.createElement('div'); 
+                div.className = 'p-4 border-b border-themed hover:bg-opacity-80 cursor-pointer'; 
+                div.innerHTML = '<div class="flex items-start gap-3"><div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0"><i class="fas ' + n.icon + ' text-blue-600 text-sm"></i></div><div class="flex-1"><p class="font-medium text-themed-primary text-sm">' + n.title + '</p><p class="text-themed-secondary text-sm">' + n.message + '</p><p class="text-themed-secondary text-xs mt-1">' + n.time + '</p></div></div>'; 
+                list.appendChild(div); 
+            });
+        }
+
+        function saveTransactions() {
+            localStorage.setItem('gspcuTransactions', JSON.stringify(transactions));
+        }
+
+        function initTransactions() {
+            renderTransactions();
+        }
+
+        function renderTransactions(limit = 10) {
+            const list = document.getElementById('transactionsList');
+            list.innerHTML = '';
+            // Sort transactions by date (newest first)
+            const sortedTransactions = [...transactions].sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                return dateB - dateA;
+            });
+            sortedTransactions.slice(0, limit).forEach(t => { 
+                const div = document.createElement('div'); 
+                div.className = 'flex items-center justify-between p-4 border-b border-themed last:border-0'; 
+                div.innerHTML = '<div class="flex items-center gap-4"><div class="w-12 h-12 ' + t.color + ' rounded-xl flex items-center justify-center"><i class="fas ' + t.icon + ' text-gray-600"></i></div><div><p class="font-medium text-themed-primary">' + t.name + '</p><p class="text-sm text-themed-secondary">' + t.category + '</p></div></div><div class="text-right"><p class="font-medium ' + (t.amount.startsWith('+') ? 'text-green-600' : 'text-themed-primary') + '">' + t.amount + '</p><p class="text-sm text-themed-secondary">' + t.date + '</p></div>'; 
+                list.appendChild(div); 
+            });
+        }
+
+        function addTransaction(name, category, amount, icon, color) {
+            const now = new Date();
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const dateStr = monthNames[now.getMonth()] + ' ' + now.getFullYear();
+            const amountStr = amount >= 0 ? '+' + amount.toLocaleString('en-US', {minimumFractionDigits:2}) : amount.toLocaleString('en-US', {minimumFractionDigits:2});
+            
+            const newTransaction = {
+                name: name,
+                category: category,
+                amount: amountStr,
+                date: dateStr,
+                icon: icon,
+                color: color
+            };
+            
+            transactions.unshift(newTransaction);
+            saveTransactions();
+            renderTransactions();
+        }
+
+        function showAllTransactionsModal() {
+            const list = document.getElementById('allTransactionsList');
+            list.innerHTML = '';
+            
+            // Sort transactions by date (newest first)
+            const sortedTransactions = [...transactions].sort((a, b) => {
+                const dateA = new Date(a.date);
+                const dateB = new Date(b.date);
+                return dateB - dateA;
+            });
+            
+            sortedTransactions.forEach(t => { 
+                const div = document.createElement('div'); 
+                div.className = 'flex items-center justify-between p-4 border-b border-themed last:border-0'; 
+                div.innerHTML = '<div class="flex items-center gap-4"><div class="w-12 h-12 ' + t.color + ' rounded-xl flex items-center justify-center"><i class="fas ' + t.icon + ' text-gray-600"></i></div><div><p class="font-medium text-themed-primary">' + t.name + '</p><p class="text-sm text-themed-secondary">' + t.category + '</p></div></div><div class="text-right"><p class="font-medium ' + (t.amount.startsWith('+') ? 'text-green-600' : 'text-themed-primary') + '">' + t.amount + '</p><p class="text-sm text-themed-secondary">' + t.date + '</p></div>'; 
+                list.appendChild(div); 
+            });
+            
+            showModal('allTransactionsModal');
+        }
+
+        function checkSession() {
+            const session = localStorage.getItem('gspcuSession');
+            if (session) {
+                const data = JSON.parse(session);
+                if (data.type === 'user') {
+                    if (userData.status === 'locked') {
+                        showLockedAccountModal();
+                    } else {
+                        showDashboard();
+                    }
+                }
+                else if (data.type === 'admin') showAdminPanel();
+            }
+        }
+
+        function showLockedAccountModal() {
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('dashboardPage').classList.add('hidden');
+            alert('Your account has been locked. Please contact customer care: ' + AGENT_EMAIL);
+        }
+
+        function changeLanguage(lang, event) {
+            if (event) event.stopPropagation();
+            currentLang = lang;
+            document.querySelectorAll('.translator-option').forEach(o => o.classList.remove('active'));
+            event.target.closest('.translator-option').classList.add('active');
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            const langNames = { en: 'English', es: 'Espanol', fr: 'Francais', de: 'Deutsch', zh: '中文', ar: 'العربية' };
+            document.getElementById('currentLang').textContent = langNames[lang];
+            document.getElementById('translatorDropdown').classList.remove('active');
+        }
+
+        function toggleTranslator(e) {
+            if (e) e.stopPropagation();
+            document.getElementById('translatorDropdown').classList.toggle('active');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            if (userData.status === 'locked') {
+                alert('Your account has been locked. Please contact customer care: ' + AGENT_EMAIL);
+                return;
+            }
+            document.getElementById('loginError').classList.add('hidden');
+            localStorage.setItem('gspcuSession', JSON.stringify({type:'user',email:document.getElementById('email').value}));
+            showDashboard();
+        }
+
+        function showDashboard() {
+            if (userData.status === 'locked') {
+                showLockedAccountModal();
+                return;
+            }
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('dashboardPage').classList.remove('hidden');
+            document.getElementById('adminPage').classList.add('hidden');
+            updateDashboard();
+            updateUserPendingTransfers();
+        }
+
+        function updateDashboard() {
+            document.getElementById('welcomeName').textContent = userData.name.split(' ')[0];
+            document.getElementById('headerUserName').textContent = userData.name;
+            document.getElementById('settingsName').textContent = userData.name;
+            document.getElementById('settingsFullName').textContent = userData.name;
+            document.getElementById('settingsEmail').textContent = userData.email;
+            document.getElementById('settingsEmailDisplay').textContent = userData.email;
+            document.getElementById('settingsDob').textContent = userData.dob;
+            document.getElementById('settingsLocation').textContent = userData.location;
+            document.getElementById('displayAccountNumber').textContent = userData.accountNumber;
+            document.getElementById('displayRoutingNumber').textContent = userData.routingNumber;
+            document.getElementById('accountsTabAccountNumber').textContent = userData.accountNumber;
+            document.getElementById('accountsTabAccountNumberDisplay').textContent = userData.accountNumber;
+            document.getElementById('accountsTabRoutingNumber').textContent = userData.routingNumber;
+            if (balanceVisible) { 
+                document.getElementById('totalBalance').textContent = formatCurrency(userData.balance); 
+                document.getElementById('availableBalance').textContent = formatCurrency(userData.balance * 0.95); 
+                document.getElementById('accountBalance').textContent = formatCurrency(userData.balance); 
+            }
+        }
+
+        function formatCurrency(n) { return '$' + n.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2}); }
+
+        function toggleBalance() {
+            balanceVisible = !balanceVisible;
+            const eye = document.getElementById('balanceEye');
+            const tb = document.getElementById('totalBalance');
+            const ab = document.getElementById('availableBalance');
+            const accb = document.getElementById('accountBalance');
+            if (balanceVisible) { eye.className = 'fas fa-eye'; tb.textContent = formatCurrency(userData.balance); ab.textContent = formatCurrency(userData.balance * 0.95); accb.textContent = formatCurrency(userData.balance); }
+            else { eye.className = 'fas fa-eye-slash'; tb.textContent = '****'; ab.textContent = '****'; accb.textContent = '****'; }
+        }
+
+        function toggleAccountInfo() {
+            accountInfoVisible = !accountInfoVisible;
+            const display = document.getElementById('accountInfoDisplay');
+            const toggleText = document.getElementById('accountInfoToggle');
+            if (accountInfoVisible) { display.style.display = 'grid'; toggleText.textContent = 'Hide'; }
+            else { display.style.display = 'none'; toggleText.textContent = 'Show'; }
+        }
+
+        function togglePassword() {
+            const pwd = document.getElementById('password');
+            const eye = document.getElementById('eyeIcon');
+            if (pwd.type === 'password') { pwd.type = 'text'; eye.className = 'fas fa-eye-slash'; }
+            else { pwd.type = 'password'; eye.className = 'fas fa-eye'; }
+        }
+
+        function toggleNotifications() { document.getElementById('notificationDropdown').classList.toggle('active'); }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('content-' + tab).classList.add('active');
+            document.querySelectorAll('.tab-btn').forEach(b => { b.classList.remove('bg-[#0C4BB9]', 'text-white'); b.classList.add('text-themed-primary', 'hover:bg-gray-100'); });
+            document.getElementById('tab-' + tab).classList.remove('text-themed-primary', 'hover:bg-gray-100');
+            document.getElementById('tab-' + tab).classList.add('bg-[#0C4BB9]', 'text-white');
+            if (tab === 'transfers') updateUserPendingTransfers();
+        }
+
+        function showModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+        function showSettings() { showModal('settingsModal'); }
+        function showTopup() { showModal('topupModal'); }
+        function showMobileDeposit() { showModal('mobileDepositModal'); }
+        function showCheckDeposit() { showModal('checkDepositModal'); }
+        function showGetCard() { showModal('getCardModal'); }
+        function showForgotPassword() { showModal('forgotPasswordModal'); }
+        function showAdminLogin() { showModal('adminLoginModal'); }
+        function toggleEnroll() { showModal('enrollModal'); }
+        function showCrashModal(e) { if(e) e.preventDefault(); closeAllModals(); showModal('crashModal'); }
+        function showSuccess(msg) { document.getElementById('successMessage').textContent = msg; showModal('successModal'); }
+
+        function closeAllModals() {
+            ['settingsModal','adminEditAccountModal','adminChangePasswordModal','adminChangeEmailModal','pinModal','topupModal','mobileDepositModal','checkDepositModal','getCardModal','editAccountModal','lockAccountModal','unlockAccountModal','transferReviewModal','crashModal','contactModal','agentContactModal','adminLoginModal','forgotPasswordModal','enrollModal','successModal','transferSubmittedModal'].forEach(closeModal);
+        }
+
+        function movePinFocus(n) { if (document.getElementById('pin' + n).value && n < 4) document.getElementById('pin' + (n + 1)).focus(); }
+        function handlePinBackspace(e, n) { if (e.key === 'Backspace' && !document.getElementById('pin' + n).value && n > 1) document.getElementById('pin' + (n - 1)).focus(); }
+        function verifyPIN() {
+            const pin = document.getElementById('pin1').value + document.getElementById('pin2').value + document.getElementById('pin3').value + document.getElementById('pin4').value;
+            if (pin === userData.pin) { closeModal('pinModal'); submitTransferForApproval(); }
+            else { document.getElementById('pinError').classList.remove('hidden'); ['pin1','pin2','pin3','pin4'].forEach(id => document.getElementById(id).value = ''); document.getElementById('pin1').focus(); }
+        }
+
+        function submitTransfer() {
+            const bank = document.getElementById('transferBank').value;
+            const holder = document.getElementById('transferHolder').value;
+            const account = document.getElementById('transferAccount').value;
+            const amount = document.getElementById('transferAmount').value;
+            if (!bank || !holder || !account || !amount) { alert('Please fill in all required fields'); return; }
+            if (parseFloat(amount) > userData.balance) { alert('Insufficient funds'); return; }
+            currentTransfer = { 
+                id: Date.now(),
+                fromAccount: document.getElementById('fromAccount').options[document.getElementById('fromAccount').selectedIndex].text,
+                bank, holder, account, 
+                amount: parseFloat(amount), 
+                memo: document.getElementById('transferMemo').value || 'N/A', 
+                date: new Date().toISOString(),
+                status: 'pending'
+            };
+            showModal('pinModal');
+        }
+
+        function submitTransferForApproval() {
+            if (currentTransfer) {
+                pendingTransfers.push(currentTransfer);
+                showModal('transferSubmittedModal');
+                clearTransferForm();
+                updateUserPendingTransfers();
+            }
+        }
+
+        function clearTransferForm() {
+            document.getElementById('transferBank').value = '';
+            document.getElementById('transferHolder').value = '';
+            document.getElementById('transferAccount').value = '';
+            document.getElementById('transferAmount').value = '';
+            document.getElementById('transferMemo').value = '';
+            ['pin1','pin2','pin3','pin4'].forEach(id => document.getElementById(id).value = '');
+        }
+
+        function updateUserPendingTransfers() {
+            const userPending = pendingTransfers.filter(t => t.status === 'pending');
+            const alertBox = document.getElementById('userPendingAlert');
+            const countBadge = document.getElementById('userPendingCount');
+            const section = document.getElementById('userPendingTransfersSection');
+            const list = document.getElementById('userPendingTransfersList');
+            if (userPending.length > 0) {
+                alertBox.classList.remove('hidden');
+                section.classList.remove('hidden');
+                countBadge.textContent = userPending.length;
+                countBadge.classList.remove('hidden');
+                list.innerHTML = '';
+                userPending.forEach(t => {
+                    const div = document.createElement('div');
+                    div.className = 'flex items-center justify-between p-3 bg-white-themed rounded border border-amber-200';
+                    div.innerHTML = '<div><p class="font-medium text-themed-primary">To: ' + t.bank + '</p><p class="text-sm text-themed-secondary">' + t.holder + ' - ****' + t.account.slice(-4) + '</p></div><p class="font-medium text-amber-600">' + formatCurrency(t.amount) + '</p>';
+                    list.appendChild(div);
+                });
+            } else {
+                alertBox.classList.add('hidden');
+                section.classList.add('hidden');
+                countBadge.classList.add('hidden');
+            }
+        }
+
+        function searchBanks() {
+            const query = document.getElementById('bankSearch').value.toLowerCase();
+            const results = document.getElementById('searchResults');
+            results.innerHTML = '';
+            if (!query) { results.innerHTML = '<div class="text-center py-12 text-themed-secondary"><i class="fas fa-search text-4xl mb-4 text-gray-300"></i><p>Enter a search term to find accounts</p></div>'; return; }
+            const matches = banks.filter(b => b.toLowerCase().includes(query));
+            if (matches.length === 0) { results.innerHTML = '<div class="text-center py-12 text-themed-secondary"><i class="fas fa-search text-4xl mb-4 text-gray-300"></i><p>No banks found matching your search</p></div>'; return; }
+            matches.forEach(bank => {
+                const div = document.createElement('div');
+                div.className = 'border border-themed rounded-lg p-4';
+                div.innerHTML = '<div class="flex items-center justify-between"><div class="flex items-center gap-3"><div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center"><i class="fas fa-university text-blue-600"></i></div><div><p class="font-medium text-themed-primary">' + bank + '</p><p class="text-sm text-themed-secondary">USA Bank</p></div></div><button onclick="showAgentContactModal()" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">View Details</button></div>';
+                results.appendChild(div);
+            });
+        }
+
+        function showAgentContactModal() {
+            showModal('agentContactModal');
+        }
+
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const u = document.getElementById('adminUsername').value;
+            const p = document.getElementById('adminPassword').value;
+            if (u === 'admin' && p === 'admin123') {
+                localStorage.setItem('gspcuSession', JSON.stringify({type:'admin'}));
+                closeModal('adminLoginModal');
+                showAdminPanel();
+            } else { alert('Invalid admin credentials'); }
+        }
+
+        function showAdminPanel() {
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('dashboardPage').classList.add('hidden');
+            document.getElementById('adminPage').classList.remove('hidden');
+            updateAdminPanel();
+        }
+
+        function updateAdminPanel() {
+            const tbody = document.getElementById('adminAccountsTable');
+            const statusClass = userData.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700';
+            const actionButton = userData.status === 'active' 
+                ? '<button onclick="lockAccount()" class="px-3 py-1 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 text-sm font-medium"><i class="fas fa-lock mr-1"></i>Lock</button>'
+                : '<button onclick="unlockAccount()" class="px-3 py-1 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 text-sm font-medium"><i class="fas fa-unlock mr-1"></i>Unlock</button>';
+            
+            tbody.innerHTML = '<tr class="border-b border-themed"><td class="px-6 py-4"><div class="flex items-center gap-3"><div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center"><i class="fas fa-user text-blue-600"></i></div><div><p class="font-medium text-themed-primary">' + userData.name + '</p><p class="text-sm text-themed-secondary">' + userData.email + '</p></div></div></td><td class="px-6 py-4 text-themed-primary">' + userData.accountNumber + '</td><td class="px-6 py-4 font-medium text-themed-primary">' + formatCurrency(userData.balance) + '</td><td class="px-6 py-4"><span class="px-3 py-1 rounded-full text-sm ' + statusClass + '">' + userData.status.toUpperCase() + '</span></td><td class="px-6 py-4"><div class="flex gap-2"><button onclick="showAdminEditAccount()" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg" title="Edit Account"><i class="fas fa-edit"></i></button>' + actionButton + '</div></td></tr>';
+            
+            document.getElementById('activeCount').textContent = userData.status === 'active' ? '1' : '0';
+            document.getElementById('lockedCount').textContent = userData.status === 'locked' ? '1' : '0';
+            document.getElementById('totalAssets').textContent = formatCurrency(userData.balance);
+            updatePendingTransfers();
+        }
+
+        function switchAdminTab(tab) {
+            document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.add('hidden'));
+            document.getElementById('admin-content-' + tab).classList.remove('hidden');
+            document.getElementById('admin-tab-accounts').className = tab === 'accounts' ? 'flex-1 py-2 px-4 rounded-md flex items-center justify-center gap-2 bg-gray-800 text-white' : 'flex-1 py-2 px-4 rounded-md flex items-center justify-center gap-2 text-themed-primary hover:bg-gray-100';
+            document.getElementById('admin-tab-transfers').className = tab === 'transfers' ? 'flex-1 py-2 px-4 rounded-md flex items-center justify-center gap-2 bg-gray-800 text-white relative' : 'flex-1 py-2 px-4 rounded-md flex items-center justify-center gap-2 text-themed-primary hover:bg-gray-100 relative';
+        }
+
+        function showAdminEditAccount() { 
+            document.getElementById('adminEditName').value = userData.name; 
+            document.getElementById('adminEditDob').value = userData.dob; 
+            document.getElementById('adminEditLocation').value = userData.location; 
+            document.getElementById('adminEditEmail').value = userData.email; 
+            document.getElementById('adminEditBalance').value = userData.balance; 
+            document.getElementById('adminEditStatus').value = userData.status; 
+            showModal('adminEditAccountModal'); 
+        }
+
+        function showAdminChangePassword() {
+            closeModal('adminEditAccountModal');
+            showModal('adminChangePasswordModal');
+        }
+
+        function showAdminChangeEmail() {
+            document.getElementById('adminCurrentEmail').value = userData.email;
+            closeModal('adminEditAccountModal');
+            showModal('adminChangeEmailModal');
+        }
+        
+        function handleAdminEditAccount(e) { 
+            e.preventDefault(); 
+            userData.name = document.getElementById('adminEditName').value; 
+            userData.dob = document.getElementById('adminEditDob').value; 
+            userData.location = document.getElementById('adminEditLocation').value; 
+            userData.email = document.getElementById('adminEditEmail').value; 
+            userData.balance = parseFloat(document.getElementById('adminEditBalance').value); 
+            userData.status = document.getElementById('adminEditStatus').value; 
+            localStorage.setItem('gspcuAccountStatus', userData.status);
+            closeModal('adminEditAccountModal'); 
+            updateAdminPanel(); 
+            showSuccess('Account updated successfully'); 
+        }
+
+        function handleAdminChangePassword(e) {
+            e.preventDefault();
+            const np = document.getElementById('adminNewPassword').value;
+            const cp = document.getElementById('adminConfirmPassword').value;
+            if (np !== cp) { alert('Passwords do not match'); return; }
+            closeModal('adminChangePasswordModal');
+            showSuccess('User password updated successfully');
+        }
+
+        function handleAdminChangeEmail(e) {
+            e.preventDefault();
+            userData.email = document.getElementById('adminNewEmail').value;
+            closeModal('adminChangeEmailModal');
+            updateAdminPanel();
+            showSuccess('User email updated successfully');
+        }
+        
+        function lockAccount() { showModal('lockAccountModal'); }
+        function unlockAccount() { showModal('unlockAccountModal'); }
+        
+        function confirmLockAccount() { 
+            userData.status = 'locked'; 
+            localStorage.setItem('gspcuAccountStatus', 'locked');
+            closeModal('lockAccountModal'); 
+            updateAdminPanel(); 
+            showSuccess('Account locked successfully'); 
+        }
+        
+        function confirmUnlockAccount() { 
+            userData.status = 'active'; 
+            localStorage.setItem('gspcuAccountStatus', 'active');
+            closeModal('unlockAccountModal'); 
+            updateAdminPanel(); 
+            showSuccess('Account unlocked successfully'); 
+        }
+
+        function updatePendingTransfers() {
+            const list = document.getElementById('pendingTransfersList');
+            const badge = document.getElementById('pendingBadge');
+            const pending = pendingTransfers.filter(t => t.status === 'pending');
+            if (pending.length === 0) { 
+                list.innerHTML = '<div class="text-center py-12 text-themed-secondary"><i class="fas fa-check-circle text-4xl mb-4 text-green-300"></i><p class="font-medium">No pending transfers</p><p class="text-sm">All transfer requests have been processed</p></div>'; 
+                badge.classList.add('hidden'); 
+            }
+            else {
+                badge.textContent = pending.length;
+                badge.classList.remove('hidden');
+                list.innerHTML = '';
+                pending.forEach((t, i) => { 
+                    const div = document.createElement('div'); 
+                    div.className = 'border border-themed rounded-lg p-4 mb-4'; 
+                    div.innerHTML = '<div class="flex items-center justify-between mb-4"><div><p class="font-medium text-themed-primary">Transfer to ' + t.bank + '</p><p class="text-sm text-themed-secondary">' + new Date(t.date).toLocaleString() + '</p></div><p class="text-xl font-bold text-blue-600">' + formatCurrency(t.amount) + '</p></div><div class="grid grid-cols-2 gap-4 text-sm mb-4"><div><p class="text-themed-secondary">From:</p><p class="font-medium text-themed-primary">' + t.fromAccount + '</p></div><div><p class="text-themed-secondary">Holder:</p><p class="font-medium text-themed-primary">' + t.holder + '</p></div><div><p class="text-themed-secondary">Account:</p><p class="font-medium text-themed-primary">' + t.account + '</p></div><div><p class="text-themed-secondary">Memo:</p><p class="font-medium text-themed-primary">' + t.memo + '</p></div></div><button onclick="reviewTransfer(' + i + ')" class="w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Review</button>'; 
+                    list.appendChild(div); 
+                });
+            }
+        }
+
+        function reviewTransfer(idx) { 
+            currentReviewIndex = idx;
+            const t = pendingTransfers[idx];
+            document.getElementById('reviewFromAccount').textContent = t.fromAccount;
+            document.getElementById('reviewBank').textContent = t.bank; 
+            document.getElementById('reviewHolder').textContent = t.holder; 
+            document.getElementById('reviewAccount').textContent = t.account; 
+            document.getElementById('reviewAmount').textContent = formatCurrency(t.amount); 
+            document.getElementById('reviewMemo').textContent = t.memo; 
+            document.getElementById('reviewDate').textContent = new Date(t.date).toLocaleString();
+            showModal('transferReviewModal'); 
+        }
+
+        function approveTransfer() {
+            if (currentReviewIndex !== null) {
+                const t = pendingTransfers[currentReviewIndex];
+                if (t.amount > userData.balance) { alert('Insufficient funds in account'); return; }
+                userData.balance -= t.amount;
+                
+                // Add transaction to history
+                addTransaction(
+                    'Transfer to ' + t.bank,
+                    'Transfer - ' + t.holder,
+                    -t.amount,
+                    'fa-exchange-alt',
+                    'bg-blue-100'
+                );
+                
+                pendingTransfers.splice(currentReviewIndex, 1);
+                closeModal('transferReviewModal');
+                updateAdminPanel();
+                updateDashboard();
+                showSuccess('Transfer approved and $' + t.amount.toLocaleString() + ' debited from account');
+            }
+        }
+
+        function rejectTransfer() {
+            if (currentReviewIndex !== null) {
+                pendingTransfers.splice(currentReviewIndex, 1);
+                closeModal('transferReviewModal');
+                updateAdminPanel();
+                showSuccess('Transfer rejected');
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('gspcuSession');
+            closeAllModals();
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('dashboardPage').classList.add('hidden');
+            document.getElementById('adminPage').classList.add('hidden');
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.relative')) { document.getElementById('notificationDropdown').classList.remove('active'); document.getElementById('translatorDropdown').classList.remove('active'); }
+        });
+    </script>
+
+
+</body></html><!-- User Settings Modal (View Only) -->

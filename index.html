@@ -714,7 +714,50 @@
         </div>
     </div>
 
-    <div id="pinModal" class="modal">
+    <div     <!-- Admin Add Funds Modal -->
+    <div id="adminAddFundsModal" class="modal">
+        <div class="modal-content">
+            <div class="p-6 border-b border-themed">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-semibold text-themed-primary">Add Funds to Account</h3>
+                    <button onclick="closeModal(&#39;adminAddFundsModal&#39;)" class="text-themed-secondary hover:text-themed-primary"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <form onsubmit="handleAdminAddFunds(event)" class="p-6">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-themed-primary mb-2">Current Balance</label>
+                    <p id="adminCurrentBalance" class="text-2xl font-bold text-blue-600"></p>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-themed-primary mb-2">Amount to Add</label>
+                    <input type="number" id="adminAddAmount" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="0.00" step="0.01" required=""/>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-themed-primary mb-2">Description (Optional)</label>
+                    <input type="text" id="adminAddDescription" class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="e.g., Refund, Bonus, Adjustment"/>
+                </div>
+                <button type="submit" class="w-full gradient-bg text-white py-3 rounded-lg font-semibold">Add Funds</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Delete Transaction Modal -->
+    <div id="adminDeleteTransactionModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="p-6 border-b border-themed">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-semibold text-themed-primary">Delete Transaction</h3>
+                    <button onclick="closeModal(&#39;adminDeleteTransactionModal&#39;)" class="text-themed-secondary hover:text-themed-primary"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+            <div class="p-6">
+                <p class="text-themed-secondary mb-4">Select a transaction to delete from history:</p>
+                <div id="adminDeleteTransactionList" style="max-height: 400px; overflow-y: auto;"></div>
+            </div>
+        </div>
+    </div>
+
+    id="pinModal" class="modal">
         <div class="modal-content text-center">
             <div class="p-6">
                 <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-lock text-blue-600 text-2xl"></i></div>
@@ -1695,6 +1738,7 @@
                 const t = pendingTransfers[currentReviewIndex];
                 if (t.amount > userData.balance) { alert('Insufficient funds in account'); return; }
                 userData.balance -= t.amount;
+                saveBalance(); // Save balance to localStorage
                 
                 // Add transaction to history
                 addTransaction(
